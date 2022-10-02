@@ -22,5 +22,14 @@ fetch(`${API_ENDPOINT}/oauth2/token`, {
     },
     body: data,
 }).then(res => res.json())
-.then(data => console.log(data))
+.then(data => {
+    console.log(data);
+    fetch(`${API_ENDPOINT}/users/@me`, {
+        headers: {
+            authorization: `${data.token_type} ${data.access_token}`,
+        }
+    }).then(res => res.json())
+    .then(data => console.log(data))
+    .catch(e => console.log(e));
+})
 .catch(e => console.log(e));
