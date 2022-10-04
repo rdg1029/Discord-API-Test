@@ -8,6 +8,7 @@ window.onload = () => {
     const loginLink = document.getElementById('login-with-discord') as HTMLLinkElement;
     const contents = document.getElementById('contents') as HTMLDivElement
     const userName = document.getElementById('user-name') as HTMLParagraphElement;
+    const serverList = document.getElementById('server-list') as HTMLUListElement;
 
     function requestApi(data: URLSearchParams) {
         API.exchangeToken(data).then(res => res.json())
@@ -24,7 +25,14 @@ window.onload = () => {
             .catch(e => console.log(e));
     
             API.getUserGuilds(data.access_token).then(res => res.json())
-            .then(data => console.log(data))
+            .then(data => {
+                data.map(s => {
+                    const server = document.createElement('li');
+                    server.innerText = s.name;
+                    server.onclick = () => console.log(`server id: ${s.id}`);
+                    serverList.appendChild(server);
+                });
+            })
             .catch(e => console.log(e));
         })
         .catch(e => console.log(e));
