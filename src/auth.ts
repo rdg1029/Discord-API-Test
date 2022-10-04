@@ -25,6 +25,14 @@ function getUserInfo(accessToken: string) {
     });
 }
 
+function getUserGuilds(accessToken: string) {
+    return fetch(`${API_ENDPOINT}/users/@me/guilds`, {
+        headers: {
+            authorization: `Bearer ${accessToken}`,
+        }
+    });
+}
+
 if (sessionStorage.getItem('refresh_token')) {
     const data = new URLSearchParams();
     data.append('client_id', CLIENT_ID);
@@ -36,7 +44,12 @@ if (sessionStorage.getItem('refresh_token')) {
     .then(data => {
         console.log(data);
         sessionStorage.setItem('refresh_token', data.refresh_token);
+
         getUserInfo(data.access_token).then(res => res.json())
+        .then(data => console.log(data))
+        .catch(e => console.log(e));
+
+        getUserGuilds(data.access_token).then(res => res.json())
         .then(data => console.log(data))
         .catch(e => console.log(e));
     })
@@ -54,7 +67,12 @@ else {
     .then(data => {
         console.log(data);
         sessionStorage.setItem('refresh_token', data.refresh_token);
+
         getUserInfo(data.access_token).then(res => res.json())
+        .then(data => console.log(data))
+        .catch(e => console.log(e));
+
+        getUserGuilds(data.access_token).then(res => res.json())
         .then(data => console.log(data))
         .catch(e => console.log(e));
     })
