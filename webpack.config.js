@@ -1,7 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
+const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+dotenv.config();
 
 const config = {
     mode: 'development',
@@ -27,10 +30,6 @@ const config = {
             '.tsx', '.ts', '.js',
         ],
     },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new CleanWebpackPlugin(),
-    ],
 }
 
 const indexConfig = Object.assign({}, config, {
@@ -40,6 +39,11 @@ const indexConfig = Object.assign({}, config, {
         path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.DefinePlugin({
+            'process.env': JSON.stringify(process.env),
+        }),
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: './public/index.html',
             filename: 'index.html',
@@ -55,6 +59,11 @@ const authConfig = Object.assign({}, config, {
         path: path.resolve(__dirname, 'dist/auth'),
     },
     plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.DefinePlugin({
+            'process.env': JSON.stringify(process.env),
+        }),
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: './public/auth.html',
             filename: 'index.html',
