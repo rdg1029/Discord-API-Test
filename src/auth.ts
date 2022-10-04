@@ -1,3 +1,4 @@
+/*
 const p = new URLSearchParams(window.location.search);
 const CODE = p.get('code');
 console.log(`code: ${CODE}`);
@@ -78,3 +79,4 @@ else {
     })
     .catch(e => console.log(e));
 }
+*/
